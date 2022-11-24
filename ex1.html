@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=s, initial-scale=1.0">
+    <title>Simulateur de crédit</title>
+</head>
+<body>
+
+    <h2>   Le salaire     </h2>
+    <input type="number" value="0"  id="salaire" >
+
+    <h2>    Le montant    </h2>
+    <input type="range"  disabled step="1000" value="0"  id="montant" >
+    <label id="txtMontant"> 0</label>
+
+    <h2>    La duree     </h2>
+    <input type="range" disabled  id="duree" >
+    <label id="txtDuree" >0</label>
+    <h2>    Type de fonction    </h2>
+    <select name="typef" id="typef">
+        <option value="fonctionnaire">Fonctionnaire</option>
+        <option value="salarie" >Salarie</option>
+        <option value="Profession" >Profession libre</option>
+
+    </select>
+
+    <button id="btnValider">Valider</button>
+
+
+    <div id="resultat">
+
+    </div>
+</body>
+<script>
+
+
+
+var taux;
+var annee = parseInt(txtDuree.innerText)/12
+
+salaire.onblur = function testSalaire(){
+    
+    if(parseInt(salaire.value)<4000 ){
+        montant.setAttribute("max",20000)
+        duree.setAttribute("max",72)
+        montant.removeAttribute("disabled")
+        duree.removeAttribute("disabled")
+
+    }
+    else 
+    if(!parseInt(salaire.value)<4000 && parseInt(salaire.value)<=10000){
+        montant.setAttribute("max",80000)
+        duree.setAttribute("max",84)
+        montant.removeAttribute("disabled")
+        duree.removeAttribute("disabled")
+
+
+    }else{
+        montant.setAttribute("max",150000)
+        duree.setAttribute("max",96)
+        montant.removeAttribute("disabled")
+        duree.removeAttribute("disabled")
+
+
+    }
+    montant.setAttribute("value",0)
+    txtMontant.innerText="0";
+
+};
+
+montant.oninput = getMontant
+duree.oninput = getDuree
+
+typef.onchange = getTaux
+
+ function getMontant() {
+     txtMontant.innerText=this.value;
+ }
+
+
+ function getDuree() {
+     txtDuree.innerText=this.value;
+     annee = parseInt(txtDuree.innerText)/12;
+ }
+
+function getTaux(){
+    if(typef.value == "fonctionnaire"){
+        taux = 0.05
+    }
+    else if(typef.value == "Profession"){
+            taux = 0.1
+        }
+        else 
+        {               
+         taux = 0.08
+       }
+    }
+
+    btnValider.onclick = function (){
+        let credit = (Math.round((parseInt(txtMontant.innerText) + ((parseInt(txtMontant.innerText)*taux)*annee)) / parseInt(txtDuree.innerText)))
+        resultat.innerText="la somme mensuelle a payer est : " + credit + "MAD"
+    }
+
+
+
+
+
+
+
+
+    
+
+</script>
+</html>
